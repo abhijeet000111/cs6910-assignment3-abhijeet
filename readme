@@ -1,0 +1,138 @@
+============================================================================================================
+Vanilla Seq2Seq and Attention-based Seq2Seq Model
+============================================================================================================
+
+This repository contains the implementation of vanilla Sequence-to-Sequence (Seq2Seq) and attention-based Seq2Seq models using PyTorch. The project utilizes the Aksharantar dataset for training, validating, and testing the models. Additionally, it includes hyperparameter tuning using Weights & Biases (W&B).
+
+Table of Contents
+1. Installation
+2. Dataset
+3. Model Architecture
+4. Training
+5. Evaluation
+6. Hyperparameter Tuning
+7. Usage
+8. Acknowledgements
+9. License
+
+Installation
+To get started, clone this repository and install the required dependencies:
+
+git clone https://github.com/abhijeet000111/cs6910-assignment3-abhijeet.git
+cd vanilla-attention-seq2seq
+pip install -r requirements.txt
+
+Dataset
+The dataset used in this project is the Aksharantar dataset, which contains parallel corpus data. The dataset can be downloaded using gdown and unzipped as follows:
+
+import gdown
+
+# Google Drive file URL
+url = 'https://drive.google.com/uc?export=download&id=16yBIEtMjkb-8pmiHOk84YaLXpHrX25cW'
+output_file = 'my_aksharantar_dataset_sampled.zip'
+# Download the file
+gdown.download(url, output_file, quiet=False)
+
+!unzip my_aksharantar_dataset_sampled.zip
+
+The dataset is split into training, validation, and test sets located in the aksharantar_sampled/hin directory.
+
+Model Architecture
+
+Encoder
+The encoder is a recurrent neural network (RNN) that processes the input sequence and outputs a context vector. The implementation supports GRU, LSTM, and vanilla RNN architectures.
+
+Decoder
+The decoder is also an RNN that generates the output sequence from the context vector produced by the encoder. Similar to the encoder, the decoder supports GRU, LSTM, and vanilla RNN architectures.
+
+Attention Mechanism
+The attention mechanism is implemented using Bahdanau attention. It helps the decoder focus on different parts of the input sequence at each step, improving translation accuracy.
+
+Training
+The training process includes the following steps:
+1. Data Preparation: The dataset is preprocessed and converted into tensors.
+2. Model Initialization: The encoder and decoder models are initialized.
+3. Training Loop: The models are trained over several epochs with the specified hyperparameters.
+4. Validation: The models are validated on the validation set after each epoch.
+
+Usage:
+
+1. Navigate to the directory containing my_utils, train.py & eval.py in your terminal or command prompt.
+
+2. Run the train & evaluation script using the following command:
+
+   python train.py [arguments]
+   python eval.py [arguments]
+
+   Replace [arguments] with the desired command-line arguments (explained below).
+
+Command-line Arguments:
+
+The train & eval script accepts several command-line arguments to customize the model training and evaluation process. Here's a detailed explanation of each argument:
+
+--hidden_size: Size of the hidden layer in the RNN. Default value is 128.
+--batch_size: Batch size for training. Default value is 128.
+--num_layers_encoder: Number of layers in the encoder RNN. Default value is 1.
+--num_layers_decoder: Number of layers in the decoder RNN. Default value is 1.
+--n_epochs: Number of epochs for training. Default value is 25.
+--rnn_type_encoder: Type of RNN for the encoder. Choices are "gru", "rnn", "lstm". Default is "gru".
+--rnn_type_decoder: Type of RNN for the decoder. Choices are "gru", "rnn", "lstm". Default is "gru".
+--dropout: Dropout probability. Default value is 0.1.
+--bidirectional: Use bidirectional RNN layers. This is a boolean flag.
+--learning_rate: Learning rate for training. Default value is 0.001.
+--beam_search_size: Size of beam search. Default value is 1.
+--decoder_attention_mode: Use attention mechanism in the decoder. This is a boolean flag.
+--hyperparameter_tuning: Enable hyperparameter tuning mode using W&B. This is a boolean flag.
+
+Example Usage:
+
+Here are some example commands demonstrating how to use the evaluation script:
+
+- To run the evaluation script with default hyperparameters:
+
+   python eval.py
+
+- To enable hyperparameter tuning mode:
+
+   python eval.py --hyperparameter_tuning
+
+Output:
+
+The evaluation script generates predictions for English to Hindi translation based on the specified command-line arguments. The predicted translations are saved to a CSV file. For attention mode, the file is named attention_s2s_predictions.csv, and for non-attention mode, it's named vanilla_s2s_predictions.csv.
+
+Example Training Command
+
+python train.py --learning_rate = 0.01
+
+Evaluation
+The evaluation process involves generating translations for random sentences from the dataset and comparing them with the ground truth. The evaluation function prints the input, target, and output sequences for subjective quality assessment.
+
+Example Evaluation Command
+
+python eval.py 
+
+Hyperparameter Tuning
+Weather to do hyperparameter tuning or not is also taken as an argument in train.py & eval.py script.
+Hyperparameter tuning is performed using Weights & Biases (W&B). The configuration space for hyperparameters is defined, and a sweep is created to find the best hyperparameters.
+
+Example Hyperparameter Tuning Command
+
+python train.py --hyperparameter_tuning
+
+Usage
+
+Training with W&B
+To train the model with W&B, run the following command:
+
+python train.py --hyperparameter_tuning
+
+Evaluating the Model
+To evaluate the model, use the following command:
+
+python eval.py --hyperparameters
+
+Acknowledgements
+This project is based on the Aksharantar dataset and uses PyTorch for model implementation. Special thanks to the creators of the dataset and the PyTorch community for their valuable resources and support.
+
+Feel free to contribute to this project by creating issues or submitting pull requests. Your feedback and contributions are highly appreciated!
+
