@@ -1,5 +1,5 @@
 
-print("+++++++++++++++++++++++++ RUNNING eval.py +++++++++++++++++++++++++++++++++")
+print("+++++++++++++++++++++++++ RUNNING train.py +++++++++++++++++++++++++++++++++")
 
 from my_utils import *
 import argparse
